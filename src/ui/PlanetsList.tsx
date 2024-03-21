@@ -1,34 +1,5 @@
-import React, { useEffect, useState } from "react";
-
-const PlanetsList = () => {
-  const [planets, setPlanets] = useState([]);
-  const [page, setPage] = useState({
-    next: null,
-    previous: null,
-  });
-  const [pageNumber, setPageNumber] = useState(1);
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        `https://swapi.dev/api/planets/?page=${pageNumber}`
-      );
-      const data = await response.json();
-      setPlanets(data.results);
-      setPage({
-        next: data.next,
-        previous: data.previous,
-      });
-    })();
-  }, [pageNumber]);
-
-  const goToNextPage = () => {
-    setPageNumber((prev) => prev + 1);
-  };
-  const goToPreviousPage = () => {
-    setPageNumber((prev) => prev - 1);
-  };
-
+const PlanetsList = (props) => {
+  const { planets, page, goToNextPage, goToPreviousPage } = props;
   return (
     <div>
       <ol>
