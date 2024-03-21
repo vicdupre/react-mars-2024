@@ -5,9 +5,7 @@ const Planet = () => {
   return (
     <>
       <h1>{planet.name}</h1>
-      <Link to=".." relative="path">
-        Retour
-      </Link>
+      <Link to={-1}>Retour</Link>
     </>
   );
 };

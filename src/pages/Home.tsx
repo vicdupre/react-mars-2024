@@ -6,6 +6,13 @@ import Card from "../ui/Card";
 import MouseTracker from "../ui/MouseTracker";
 import PlanetsList from "../ui/PlanetsList";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createDecrement,
+  createIncrement,
+} from "../lib/actions/counterActions";
+import { decrement, increment } from "../lib/slices/counterSlice";
+import useCounter from "../lib/useCounter";
 
 const items = [
   { price: 120, id: 1 },
@@ -14,7 +21,7 @@ const items = [
 ];
 
 function Home() {
-  const [count, setCount] = useState(0);
+  const { count, increment, decrement } = useCounter();
   const [filteredItems, setFilteredItems] = useState([]);
   const navigate = useNavigate();
   const myCount = useRef(0);
@@ -35,9 +42,9 @@ function Home() {
 
   useEffect(() => {
     console.log(count);
-    if (count === 5) {
+    /*  if (count === 5) {
       navigate("/planetes");
-    }
+    } */
   }, [count]);
 
   return (
@@ -62,13 +69,8 @@ function Home() {
       <Welcome name="Jojo" />
       <Welcome name="Toto" />
       <div className="card" ref={ref}>
-        <button
-          onClick={() => {
-            setCount((count) => count + 1);
-          }}
-        >
-          count is {count}
-        </button>
+        <button onClick={increment}>+ count is {count}</button>
+        <button onClick={decrement}>- count is {count}</button>
         <button
           onClick={() => {
             myCount.current = myCount.current + 1;
