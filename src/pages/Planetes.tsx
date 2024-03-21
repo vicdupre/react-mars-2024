@@ -1,34 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import PlanetsList from "../ui/PlanetsList";
-import { useEffect, useState } from "react";
 
 const Planetes = () => {
-  const [planets, setPlanets] = useState([]);
-  const [page, setPage] = useState({
-    next: null,
-    previous: null,
-  });
-  const [pageNumber, setPageNumber] = useState(1);
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        `https://swapi.dev/api/planets/?page=${pageNumber}`
-      );
-      const data = await response.json();
-      setPlanets(data.results);
-      setPage({
-        next: data.next,
-        previous: data.previous,
-      });
-    })();
-  }, [pageNumber]);
+  const { planets, page, pageNumber } = useLoaderData() as any;
+  const navigate = useNavigate();
 
   const goToNextPage = () => {
-    setPageNumber((prev) => prev + 1);
+    navigate(`/planetes?page=${pageNumber + 1}`);
   };
   const goToPreviousPage = () => {
-    setPageNumber((prev) => prev - 1);
+    navigate(`/planetes?page=${pageNumber - 1}`);
   };
 
   return (
