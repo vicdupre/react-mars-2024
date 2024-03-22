@@ -1,19 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required").min(2, "Name is too short"),
   email: Yup.string().email("Email incorrect").required("Email is required"),
   password: Yup.string()
-
     .required("Password is required")
-    .min(6, "Password is too short"),
+    .min(6, "Password is too short")
+    .max(40, "Password is too long"),
   role: Yup.string().required("Role is required"),
 });
 
 const CreateUser = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -38,13 +40,18 @@ const CreateUser = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          role: values.role,
+        }),
       }
     );
     if (response.ok) {
-      alert("User created successfully");
       const data = await response.json();
       console.log("data", data);
+      navigate("/users");
     } else {
       alert("An error occurred");
     }
@@ -66,7 +73,7 @@ const CreateUser = () => {
         <label>Password</label>
         <input type="password" {...register("password")} />
       </div>
-      {errors.email && <p>{errors.email?.message}</p>}
+      {errors.password && <p>{errors.password?.message}</p>}
       <div>
         <label>Role</label>
         <input type="text" {...register("role")} />
