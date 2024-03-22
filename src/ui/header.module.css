@@ -16,3 +16,7 @@
 .activeLink {
   color: tomato;
 }
+
+.header a:hover {
+  color: tomato;
+}
