@@ -7,11 +7,15 @@ import Planet from "./pages/Planete";
 import CreateUser from "./pages/CreateUser";
 import Users from "./pages/Users";
 import EditUser from "./pages/EditUser";
+import Store from "./pages/Store";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+
     children: [
       { index: true, element: <Home /> },
       { path: "planetes", element: <Planetes />, loader: getPlanets },
@@ -19,6 +23,9 @@ const router = createBrowserRouter([
       { path: "users/create", element: <CreateUser /> },
       { path: "users", element: <Users />, loader: getUsers },
       { path: "users/:id", element: <EditUser />, loader: getUser },
+      { path: "store", element: <Store /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
